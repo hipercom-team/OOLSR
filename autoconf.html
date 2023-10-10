@@ -1,0 +1,942 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>Address autoconfiguration in Optimized Link State Routing Protocol</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="Address autoconfiguration in Optimized Link State Routing Protocol">
+<meta name="keywords" content="RFC, Request for Comments, I-D, Internet-Draft, XML, Extensible Markup Language">
+<meta name="generator" content="xml2rfc v1.29 (http://xml.resource.org/)">
+<style type='text/css'>
+<!--
+    body {
+        font-family: verdana, charcoal, helvetica, arial, sans-serif;
+        margin: 2em;
+        font-size: small ; color: #000000 ; background-color: #ffffff ; }
+    .title { color: #990000; font-size: x-large ;
+        font-weight: bold; text-align: right;
+        font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+        background-color: transparent; }
+    .filename { color: #666666; font-size: 18px; line-height: 28px;
+        font-weight: bold; text-align: right;
+        font-family: helvetica, arial, sans-serif;
+        background-color: transparent; }
+    td.rfcbug { background-color: #000000 ; width: 30px ; height: 30px ;
+        text-align: justify; vertical-align: middle ; padding-top: 2px ; }
+    td.rfcbug span.RFC { color: #666666; font-weight: bold; text-decoration: none;
+        background-color: #000000 ;
+        font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+        font-size: x-small ; }
+    td.rfcbug span.hotText { color: #ffffff; font-weight: normal; text-decoration: none;
+        text-align: center ;
+        font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+        font-size: x-small ; background-color: #000000; }
+/* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+    div#counter{margin-top: 100px}
+
+    a.info{
+        position:relative; /*this is the key*/
+        z-index:24;
+        text-decoration:none}
+
+    a.info:hover{z-index:25; background-color:#990000 ; color: #ffffff ;}
+
+    a.info span{display: none}
+
+    a.info:hover span.info{ /*the span will display just on :hover state*/
+        display:block;
+        position:absolute;
+        font-size: smaller ;
+        top:2em; left:2em; width:15em;
+        padding: 2px ;
+        border:1px solid #333333;
+        background-color:#eeeeee; color:#990000;
+        text-align: left ;}
+
+     A { font-weight: bold; }
+     A:link { color: #990000; background-color: transparent ; }
+     A:visited { color: #333333; background-color: transparent ; }
+     A:active { color: #333333; background-color: transparent ; }
+
+    p { margin-left: 2em; margin-right: 2em; }
+    p.copyright { font-size: x-small ; }
+    p.toc { font-size: small ; font-weight: bold ; margin-left: 3em ;}
+
+    span.emph { font-style: italic; }
+    span.strong { font-weight: bold; }
+    span.verb, span.vbare { font-family: "Courier New", Courier, monospace ; }
+
+    span.vemph { font-style: italic; font-family: "Courier New", Courier, monospace ; }
+    span.vstrong { font-weight: bold; font-family: "Courier New", Courier, monospace ; }
+    span.vdeluxe { font-weight: bold; font-style: italic; font-family: "Courier New", Courier, monospace ; }
+
+    ol.text { margin-left: 2em; margin-right: 2em; }
+    ul.text { margin-left: 2em; margin-right: 2em; }
+    li { margin-left: 3em;  }
+
+    pre { margin-left: 3em; color: #333333;  background-color: transparent;
+        font-family: "Courier New", Courier, monospace ; font-size: small ;
+        text-align: left;
+        }
+
+    h3 { color: #333333; font-size: medium ;
+        font-family: helvetica, arial, sans-serif ;
+        background-color: transparent; }
+    h4 { font-size: small; font-family: helvetica, arial, sans-serif ; }
+
+    table.bug { width: 30px ; height: 15px ; }
+    td.bug { color: #ffffff ; background-color: #990000 ;
+        text-align: center ; width: 30px ; height: 15px ;
+         }
+    td.bug A.link2 { color: #ffffff ; font-weight: bold;
+        text-decoration: none;
+        font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
+        font-size: x-small ; background-color: transparent }
+
+    td.header { color: #ffffff; font-size: x-small ;
+        font-family: arial, helvetica, sans-serif; vertical-align: top;
+        background-color: #666666 ; width: 33% ; }
+    td.author { font-weight: bold; margin-left: 4em; font-size: x-small ; }
+    td.author-text { font-size: x-small; }
+    table.data { vertical-align: top ; border-collapse: collapse ;
+        border-style: solid solid solid solid ;
+        border-color: black black black black ;
+        font-size: small ; text-align: center ; }
+    table.data th { font-weight: bold ;
+        border-style: solid solid solid solid ;
+        border-color: black black black black ; }
+    table.data td {
+        border-style: solid solid solid solid ;
+        border-color: #333333 #333333 #333333 #333333 ; }
+
+    hr { height: 1px }
+-->
+</style>
+</head>
+<body>
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr><td class="header">IETF MANET</td><td class="header">C. Adjih</td></tr>
+<tr><td class="header">Internet-Draft</td><td class="header">S. Boudjit</td></tr>
+<tr><td class="header">Expires: January 16, 2006</td><td class="header">P. Jacquet</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">A. Laouiti</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">P. Muhlethaler</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">INRIA Rocquencourt, France</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">July 15, 2005</td></tr>
+</table></td></tr></table>
+<div align="right"><span class="title"><br />Address autoconfiguration in Optimized Link State Routing Protocol</span></div>
+<div align="right"><span class="title"><br /> draft-laouiti-manet-olsr-address-autoconf-01.txt</span></div>
+
+<h3>Status of this Memo</h3>
+<p>
+By submitting this Internet-Draft,
+each author represents that any applicable patent or other IPR claims of which
+he or she is aware have been or will be disclosed,
+and any of which he or she becomes aware will be disclosed,
+in accordance with Section&nbsp;6 of BCP&nbsp;79.</p>
+<p>
+Internet-Drafts are working documents of the Internet Engineering
+Task Force (IETF), its areas, and its working groups.
+Note that other groups may also distribute working documents as
+Internet-Drafts.</p>
+<p>
+Internet-Drafts are draft documents valid for a maximum of six months
+and may be updated, replaced, or obsoleted by other documents at any time.
+It is inappropriate to use Internet-Drafts as reference material or to cite
+them other than as &ldquo;work in progress.&rdquo;</p>
+<p>
+The list of current Internet-Drafts can be accessed at
+<a href='http://www.ietf.org/ietf/1id-abstracts.txt'>http://www.ietf.org/ietf/1id-abstracts.txt</a>.</p>
+<p>
+The list of Internet-Draft Shadow Directories can be accessed at
+<a href='http://www.ietf.org/shadow.html'>http://www.ietf.org/shadow.html</a>.</p>
+<p>
+This Internet-Draft will expire on January 16, 2006.</p>
+
+<h3>Copyright Notice</h3>
+<p>
+Copyright &copy; The Internet Society (2005).</p>
+
+<h3>Abstract</h3>
+
+<p> One of the MANET protocols which have been recently promoted to
+	experimental RFC is the OLSR routing protocol<a class="info" href="#ref3">[3]<span> (</span><span class="info">, &ldquo;T.  Clausen, Ed., P.  Jacquet, Ed., 'Optimized Link State Routing 	    Protocol',  Request for Comments (Experimental) 3626, Internet  	    Engineering Task Force, October 2003,&rdquo; .</span><span>)</span></a>.  
+	This document aims
+	at complementing the OLSR routing protocol specifications to handle
+	autoconfiguration.  The corner stone  of this autoconfiguration
+	protocol is an advanced duplicate address detection algorithm.  We
+	propose a comprehensive autoconfiguration scheme whose basic idea is
+	to avoid conflicts in the 2-hop neighborhood of each node.  We have
+	designed two algorithms to perform this task.  These algorithms 
+	operate on multiple interfaces and are
+	shown to work in any case of multiple conflicts, especially during
+	network mergers.
+      
+</p><a name="toc"></a><br /><hr />
+<h3>Table of Contents</h3>
+<p class="toc">
+<a href="#anchor1">1.</a>&nbsp;
+Introduction<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor2">1.1</a>&nbsp;
+Changes<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor3">1.2</a>&nbsp;
+Terminology<br />
+<a href="#anchor4">2.</a>&nbsp;
+Overview<br />
+<a href="#anchor5">3.</a>&nbsp;
+Duplicate address detection and MAD message description<br />
+<a href="#anchor6">4.</a>&nbsp;
+Duplicate Address Detection mechanism<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor7">4.1</a>&nbsp;
+Definition 1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor8">4.2</a>&nbsp;
+Definition 2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor9">4.3</a>&nbsp;
+First approach<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor10">4.3.1</a>&nbsp;
+Rule 1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor11">4.3.2</a>&nbsp;
+Rule 2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor12">4.3.3</a>&nbsp;
+DAD-MPR flooding algorithm<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor13">4.4</a>&nbsp;
+Second approach<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor14">4.4.1</a>&nbsp;
+Rule 2bis<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor15">4.4.2</a>&nbsp;
+Details<br />
+<a href="#anchor16">5.</a>&nbsp;
+Address assignment<br />
+<a href="#anchor17">6.</a>&nbsp;
+Pool of addresses<br />
+<a href="#anchor18">7.</a>&nbsp;
+ Resolution of a conflict<br />
+<a href="#anchor19">8.</a>&nbsp;
+Security Considerations<br />
+<a href="#rfc.references1">9.</a>&nbsp;
+References<br />
+<a href="#rfc.authors">&#167;</a>&nbsp;
+Authors' Addresses<br />
+<a href="#rfc.copyright">&#167;</a>&nbsp;
+Intellectual Property and Copyright Statements<br />
+</p>
+<br clear="all" />
+
+<a name="anchor1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1"></a><h3>1.&nbsp;Introduction</h3>
+
+<p>
+	Mobile Ad hoc NETworks (MANETs) are infrastructure-free, highly
+	dynamic wireless networks, where central administration or configuration 
+	by the user is very difficult.  In hardwired networks nodes usually rely on 
+	a centralized server and use a dynamic host configuration protocol, 
+	like DHCP<a class="info" href="#ref1">[1]<span> (</span><span class="info">, &ldquo;R.  Droms, Ed.,J.  Bound, B.  Volz, T.  Lemon, C.  Perkins, M.   	    Carney, 'Dynamic Host Configuration Protocol for IPv6 (DHCPv6)', 	    IETF RFC 3315, July 2003,&rdquo; .</span><span>)</span></a>, to acquire an IP address.  
+	Such a solution cannot be deployed in MANETs due to the unavailability of any
+	centralized DHCP server.  For small scale MANETs, it may be possible
+	to allocate free IP addresses manually.
+      
+</p>
+<p>
+	However, the procedure becomes impractical for a large-scale or open
+	system where mobile nodes are free to join and leave.  Most of the
+	autoconfiguration algorithms proposed for ad hoc networks are independent 
+	of the routing protocols and therefore, generate a significant overhead.  
+	Using the genuine optimization of the underlying
+	routing protocol can significantly reduce the autoconfiguration overhead.
+      
+</p>
+<p>
+	Research on automatic configuration of IP addresses for MANET is relatively 
+	less frequent.  The IPv6 and ZEROCONF working groups of the
+	IETF deal with autoconfiguration issues but with a focus on wired
+	networks.  Automatic address allocation is more difficult in a MANET
+	environment than in wired networks due to instability of links,
+	mobility of the nodes, the open nature of the mobile ad hoc networks,
+	and lack of central administration in the general case.  Thus performing a 
+	DAD (Duplicate Address Detection) generates more complexity
+	and more overhead in ad hoc networks than in wired networks where
+	protocols such as DHCP<a class="info" href="#ref1">[1]<span> (</span><span class="info">, &ldquo;R.  Droms, Ed.,J.  Bound, B.  Volz, T.  Lemon, C.  Perkins, M.   	    Carney, 'Dynamic Host Configuration Protocol for IPv6 (DHCPv6)', 	    IETF RFC 3315, July 2003,&rdquo; .</span><span>)</span></a> and 
+	SAA <a class="info" href="#ref2">[2]<span> (</span><span class="info">, &ldquo;S.  Thomson, T.  Narten, 'IPv6 Stateless Address  	    Autoconfiguration', IETF RFC 2462, December 1998,&rdquo; .</span><span>)</span></a> can be used.
+      
+</p>
+<p>
+	In this document we will describe an autoconfiguration solution for
+	the OLSR protocol.  This solution is based on an efficient Duplicate
+	Address Detection (DAD) algorithm which takes advantage of the genuine 
+	optimization of the OLSR protocol.  We actually propose two
+	approachs to handle multiple address conflicts.  They have the same
+	main basic idea which is to ensure the absence of conflicts in the
+	2-hop neighborhood of each node.
+      
+</p>
+<a name="rfc.section.1.1"></a><h4><a name="anchor2">1.1</a>&nbsp;Changes</h4>
+
+<p>
+	  Major changes from version 00 to version 01
+	  </p>
+<ul class="text">
+<li> DAD and MPR flooding is ensured in case of multiple interfaces.
+</li>
+<li> The second approach do not modify the basic OLSR HELLO 
+	      message format anymore.
+</li>
+</ul><p>
+	
+</p>
+<a name="rfc.section.1.2"></a><h4><a name="anchor3">1.2</a>&nbsp;Terminology</h4>
+
+<p>
+	  The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+	  "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+	  document are to be interpreted as described in RFC2119 <a class="info" href="#ref5">[5]<span> (</span><span class="info">, &ldquo;A.  Laouiti, S.  Boudjit, P.  Minet and C.  Adjih, 'OLSR for IPv6 	    networks', Proceedings of Med-Hoc-Net, June 2004,Bodrum, Turkey,&rdquo; .</span><span>)</span></a>.
+	
+</p>
+<p>
+	  For the OLSR description and terminology, the reader should refer to
+	  the OLSR RFC <a class="info" href="#ref3">[3]<span> (</span><span class="info">, &ldquo;T.  Clausen, Ed., P.  Jacquet, Ed., 'Optimized Link State Routing 	    Protocol',  Request for Comments (Experimental) 3626, Internet  	    Engineering Task Force, October 2003,&rdquo; .</span><span>)</span></a>.
+	
+</p>
+<a name="anchor4"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2"></a><h3>2.&nbsp;Overview</h3>
+
+<p>
+	Our proposed auto-configuration algorithm is based on three
+	principles:
+	</p>
+<ol class="text">
+<li> Address assignement: an IP address is selected by the 
+	    arriving node and this latter can join the ad hoc network.
+	  
+</li>
+<li> Duplicate Address Detection: each node checks that there isn't
+	    another node with the same address.
+	  
+</li>
+<li> Conflict resolution: when a node detect that another node is 
+	    using the same address, it will select a new address.
+	  
+</li>
+</ol><p>
+
+      
+</p>
+<p>
+	Numerous schemes can be
+	used to select an IP address for instance the node can perform a
+	random selection; another technique is that a neighbor node selects
+	this IP address for the arriving node.
+	The aim of the second step is to detect potential address duplications 
+	on run.  To perform this task a DAD algorithm is started on
+	this newly configured node.  This DAD algorithm allows to state 
+	whether the selected address is duplicated or
+	not in a proactive manner.  If such a case occurs, a node can change
+	its address with respect to some specified criteria to resolve the 
+	conflict.
+      
+</p>
+<p>
+	The DAD algorithm uses a special control packet called MAD 
+	for ``Multiple Address Declaration''.  This control packet includes 
+	one identifier and all the addresses of the node.
+	This message is periodically transmitted to the entire network.
+	The identifier of each node is assumed unique.
+	If a node receives an MAD message with a different identifier than 
+	its own, an address duplication is detected.
+	To spare the channel bandwidth the MAD packet should be  broadcasted
+	using the MPR flooding.
+      
+</p>
+<p>
+	On the other hand, duplicated addresses may be the origin of MPR
+	election and flooding corruption, which may induce errors in packet
+	delivery, particularly the MAD packets.  Consequently, we need first
+	to ensure the MPR election from those conflictual situations.  We
+	propose two approaches to achieve this task:
+	</p>
+<ol class="text">
+<li>
+	    In first one, we suggest to ignore the MPR mechanism for
+	    the first hop, and relay each originated MAD message by all
+	    the neighbors to the 2-hop neighbors.  In this manner possible
+	    address conflict could be detected and resolved.  The direct
+	    consequence is that the MPR set will be fixed.
+	  
+</li>
+<li>
+	    In the second one, we propose to modify the OLSR the MPR 
+	    election algorithm.  The calculation will be
+	    based on  node identifiers to guarantee the
+	    uniqueness of the direct neighbors and the 2-hop neighbors.
+	    This leads to a correct MPR  set, hence,we are sure that the
+	    MAD messages reach all the nodes.
+	  
+</li>
+</ol><p>
+      
+<p>
+	In the sequel we first present the MAD message used to detect the
+	address conflict.  Then, we introduce the two proposed approaches for 
+	DAD algorithms tailored for OLSR protocol.  And, finally we give some address
+	assignment and conflict resolution issues.
+      
+</p>
+      
+
+<a name="anchor5"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3"></a><h3>3.&nbsp;Duplicate address detection and MAD message description</h3>
+
+<p>
+	In order to detect address conflicts, each node diffuses periodically
+	a special message  that we call a MAD for ``Multiple Address Declaration'' 
+	to the entire network<a class="info" href="#ref5">[5]<span> (</span><span class="info">, &ldquo;A.  Laouiti, S.  Boudjit, P.  Minet and C.  Adjih, 'OLSR for IPv6 	    networks', Proceedings of Med-Hoc-Net, June 2004,Bodrum, Turkey,&rdquo; .</span><span>)</span></a>.  This control packet includes the
+	node addresses and the node identifier.  The node identifier is a
+	sequence of bits of fixed length L which is randomly generated.
+	Hence we are using the standard idea that the probability of two
+	nodes having the same node identifier is low, and the probability of
+	at least one address collision with N nodes, which is the well known
+	``birthday problem'', can be set arbitrarily low by choosing a large
+	enough value of L (eight bytes are enough to code the random identifier 
+	if we consider a network with a maximum of 10000 nodes <a class="info" href="#ref4">[4]<span> (</span><span class="info">, &ldquo;S.Boudjit, A.  Laouiti, P.  Muhlethaler, C.  Adjih, 'Duplicate 	    address detection and autoconfiguration in OLSR', INRIA Research 	    Report-5475, Jan 2005,&rdquo; .</span><span>)</span></a> 
+	<a class="info" href="#ref7">[7]<span> (</span><span class="info">, &ldquo;S. Boudjit, C. Adjih, A. Laouiti, P. Muhlethaler,'Duplicate address detection  	    and autoconfiguration in OLSR', Proceedings of IEEE SAWN 2005, May 2005, Maryland,  	    USA,&rdquo; .</span><span>)</span></a>).
+	The MAD message format is depicted in the following figure.
+	
+      
+</p><a name="MADMsg"></a>
+<pre>
+0                   1                   2                   3
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
+|                   Originator node identifier                  |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                     OLSR Interface Address                    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                     OLSR Interface Address                    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                              ...                              |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;1&nbsp;</b></font><br /></td></tr></table><hr size="1" shade="0">
+
+<p>
+	A node detects an address conflict when it receives an MAD message
+	having the same address as its own, but with a different identifier.
+	These situations may happen during network mergers.  Actually other
+	nodes will detect the conflict.  These nodes could announce the 
+	conflict using a special control message.  However this approach may
+	induce broadcast storm since many nodes may announce the conflict and
+	special care must be taken to avoid this effect.  For that reason we
+	do not recommend this way.  An efficient manner to notify the address
+	duplication to the nodes in conflict, consists in allowing the MAD
+	packets to reach all the nodes in the network.  To save the channel
+	bandwidth the MAD packets should be broadcasted using the MPR 
+	flooding.  Actually, applying OLSR relaying optimization rules as
+	they are defined, may not be sufficient to ensure diffusion in some
+	conflictual cases.
+      
+</p>
+<a name="anchor6"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4"></a><h3>4.&nbsp;Duplicate Address Detection mechanism</h3>
+
+<p>
+	Duplicate addresses are detected by the periodic exchange of MAD 
+	messages.  We propose two different algorithms to ensure the delivery 
+	of these messages to the participants in the  network in order to 
+	discover these conflicts.  The first one suggests to modify the MPR
+	flooding rules for MAD messages diffusion.  Where in the second one,
+	we propose to modify the OLSR MPR election, which is done on the
+	basis of the node identifier.  This  guarantee
+	correct MPR sets, that cover the 2-hop neighbors even in the presence
+	of duplicate addresses.
+      
+</p>
+<a name="rfc.section.4.1"></a><h4><a name="anchor7">4.1</a>&nbsp;Definition 1</h4>
+
+<p>
+	  Two nodes are in conflict if at least, it exists an 
+	  interface address shared by the two nodes.
+	
+</p>
+<a name="rfc.section.4.2"></a><h4><a name="anchor8">4.2</a>&nbsp;Definition 2</h4>
+
+<p>
+	  A node X has a non conflicting symmetric neighborhood if each of 
+	  its symmetric neighbors is not in conflict with a symmetric or 
+	  asymmetric neighbor of the node X. 
+	
+</p>
+<a name="rfc.section.4.3"></a><h4><a name="anchor9">4.3</a>&nbsp;First approach</h4>
+
+<p>
+	  In this approach we first introduce the new rules for MPR flooding, 
+	  then we describe the full algorithm used for MAD flooding that we 
+	  call DAD-MPR flooding. The proof of correcteness of this algoritm is given 
+	  in <a class="info" href="#ref6">[6]<span> (</span><span class="info">, &ldquo;C. Adjih, S.Boudjit, P. Jacquet, A.  Laouiti, P.  Muhlethaler, 'An Advanced 	    Configuration and Duplicate Address Detection mechanism for a multi-interface 	    OLSR Network', INRIA Research Report, Jul 2005,&rdquo; .</span><span>)</span></a>.
+	
+</p>
+<a name="rfc.section.4.3.1"></a><h4><a name="anchor10">4.3.1</a>&nbsp;Rule 1</h4>
+
+<p>
+	    When a node X receives a MAD message and if node X has a 
+	    symmetric or asymmetric link with a node Y with the same main 
+	    address as the one contained in the MAD message, then node X 
+	    relays this MAD message. When relaying the MAD message the 
+	    Hop-Count field is set to 1.
+	  
+</p>
+<a name="rfc.section.4.3.2"></a><h4><a name="anchor11">4.3.2</a>&nbsp;Rule 2</h4>
+
+<p>
+	    When a node X receives a HELLO message from a node Y, this HELLO
+	    contains interface addresses of 2-hop neighbors of X(1-hop 
+	    neighbors of Y). To convert such addresses into main addresses 
+	    the node X uses MAD messages that are relayed by Y. The rule 2 
+	    will actually avoid inconsistent main address 
+	    conversions for 2-hop neighbors.
+	  
+</p>
+<a name="rfc.section.4.3.3"></a><h4><a name="anchor12">4.3.3</a>&nbsp;DAD-MPR flooding algorithm</h4>
+
+<p>
+	    Let us recall the assumptions here.
+	    
+	    Each node A periodically sends a message M including:
+	    </p>
+<ul class="text">
+<li>The originator address of A, Orig_A, in the OLSR message header.
+</li>
+<li> The list of interface addresses of node A in the message it self.
+</li>
+<li>The message sequence number, mssn, in the OLSR message header.
+</li>
+<li>The node identifier ID_A (a string of bits) in the message itself.
+</li>
+</ul><p>
+	  
+</p>
+<p>
+	    The message is propagated by MPR flooding to the other nodes ; but for
+	    DAD-MPR Flooding, the duplicate table of OLSR is modified, so that
+	    it also includes the node identifier list in the duplicate tuple.
+	    That is, a duplicate tuple, includes the following information:
+	    </p>
+<ul class="text">
+<li>The originator address (as in OLSR standard duplicate table).
+</li>
+<li>The message sequence number (as in OLSR standard duplicate table).
+</li>
+<li>The list of node identifiers.
+</li>
+<li>The list of interface addresses on which the MAD message was received.
+</li>
+</ul><p>
+	  
+</p>
+<p>
+	    The detailed algorithm for DAD-MPR Flooding is the following:
+	    </p>
+<ul class="text">
+<li>When a node B receives a MAD message M on its interface B(i) from 
+		node C with originator Orig_A, with message sequence number mssn, 
+		and with node identifier ID_A, it performs the following tasks:
+
+		
+<ol class="text">
+<li> 
+		    If a duplicate tuple exists with the same originator Orig_A, 
+		    the same message sequence number mssn, the ID_A is in the list 
+		    of node identifiers, and the interface address of B(i) is in the 
+		    list of interface addresses on which the message has already been 
+		    received, Then, the message is ignored (it has already been 
+		    processed). The algorithm stops here.
+		  
+</li>
+<li>
+		    Else one of the following situations occurs :
+		    
+<ol class="text">
+<li>
+			A duplicate tuple exists with the same originator Orig_A, 
+			the same message  sequence number mssn, ID_A is in the list of 
+			node identifiers, but the address of B(i) is not in the list 
+			of interface addresses on which the MAD message has already 
+			been received: then, the message must be processed. The address 
+			of B(i) is added to the list of interface addresses on which 
+			the message has already been received.
+		      
+</li>
+<li>
+			A duplicate tuple exists with the same originator Orig_A and 
+			the same message sequence number, but ID_A is not in the list 
+			of node identifiers: then, a  conflict is detected (address 
+			Orig_A is duplicated). ID_A is added to the list of node 
+			identifiers.
+		      
+</li>
+<li>
+			A duplicate tuple exists with the same originator Orig_A, but 
+			with a different message sequence number and ID_A is not in the 
+			list of node identifiers: then, a conflict is detected 
+			(address Orig_A is duplicated). A duplicate tuple is created 
+			with the originator address, message sequence number and list 
+			of node identifiers containing only ID_A.
+		      
+</li>
+<li>
+			No duplicate tuple exists. A new one is created with the
+			originator address Orig_A, message sequence number mssn, list 
+			of interface addresses on which the MAD message has already been
+			received containing only the address of B(i), and list of node 
+			identifiers containing only ID_A.
+		      
+</li>
+</ol><p>
+		  
+</li>
+<li>
+		    The MAD messages should be relayed if one or more of the following 
+		    rules are met:
+		    </p>
+<ol class="text">
+<li>
+			C had chosen this current receiving node, B, as an MPR.
+		      
+</li>
+<li>
+			Node B has a symmetric or asymmetric link with a node Y with 
+			the same main address as the one contained in the MAD message 
+			M. In such a case, the Hop-Count field is set to 1 before 
+			message M retransmission.
+		      
+</li>
+</ol><p>
+		  
+</li>
+</ol><p>
+	      
+</li>
+<li>
+		When a node X receives a HELLO message from a node Y, this HELLO 
+		contains interface addresses of 2-hop neighbors of X. The node X 
+		uses MAD messages relayed by Y to convert such addresses into 
+		main addresses.
+	      
+</li>
+</ul><p>
+	  
+</p>
+<a name="rfc.section.4.4"></a><h4><a name="anchor13">4.4</a>&nbsp;Second approach</h4>
+
+<p>
+	  An issue with this previous approach is that the conflicts at 2-hop
+	  must be resolved before one can be sure that the MAD messages are
+	  successfully transmitted within the entire network. An ideal property
+	  would be that the MAD messages reach all the nodes in the network
+	  irrespectively of potential address duplications. This property can be
+	  achieved if the MPR flooding continues to work in presence of address
+	  duplication. A solution is then to base the selection of MPR not on
+	  addresses but on node identifiers.  With the assumption that node
+	  identifiers are globally unique in the network, one can be sure that
+	  there will not be identifier duplications at two hops of a given node
+	  and thus the selection of MPRs will be correct. This solution can be
+	  simply implemented, the selection of the MPRs must follow the
+	  principle defined in the OLSR protocol except that the base for the
+	  selection must be the node identifiers i.e.  the 2-hop coverage must
+	  be considered not on the addresses but on the node identifiers. 
+	
+</p>
+<p>
+	  This is achieved in this section by providing an alternative to
+	  the second rule. The Rule 2 is replaced by a Rule 2bis:
+	
+</p>
+<a name="rfc.section.4.4.1"></a><h4><a name="anchor14">4.4.1</a>&nbsp;Rule 2bis</h4>
+
+<p>
+	    The MPR calculation is modified, by using 
+	    node identifiers. Each address is converted to a node identifier
+	    (using a method described later): as a result the node computing
+	    its MPR set, has its 1-hop and 2-hop topology represented by
+	    links between node identifiers.
+	  
+</p>
+<a name="rfc.section.4.4.2"></a><h4><a name="anchor15">4.4.2</a>&nbsp;Details</h4>
+
+<p>
+	    The goal is to obtain the one hop neighborhood and the two-hop neighborhood
+	    with node identifiers in place of addresses.
+	  
+</p>
+<p>
+	    Converting main addresses of neighbor to node identifiers is easily done:
+	    when receiving the MAD messages from neighbors, the main address
+	    can be identified to be the address of a neighbor, and the
+	    node identifier is given. Hence the node may record the information mapping
+	    main addresses of neighbors to their identifiers.
+	    
+</p>
+<p>
+	    Converting main addresses of two-hop neighbors to node identifiers is less
+	    direct: however the information obtained thanks to the fact that MAD messages
+	    from two-hop neighbors are always retransmitted by one-hop neighbors.
+	    Such MAD messages are identified by the fact that they arrive with a hop count
+	    field (corrected by Rule 1 is necessary), equal to 1 ; in the following,
+	    they are called two-hop MAD messages. The receiver node
+	    can thus maintain the information Two-Hop Identifier Table: 
+	    (neighbor address, two-hop neighbor addresses list, two-hop neighbor 
+	    identifier) in or in addition to, the MID/MAD information base.
+	    Now taking advantage of the fact that conflicts at distance 1 to 3 
+	    are resolved anyway by Rule 1, it is know that one neighbor will
+	    retransmit neighbor MAD message (two-hop MAD messages for the receiver) 
+	    that have all different addresses: otherwise there would be a 2-hop 
+	    conflict, necessarily resolved. Thus the mapping deduced from the Two-Hop 
+	    Identifier Table, (neighbor main address, two-hop neighbor main address) 
+	    -->two-hop neighbor identifier is unique (and corresponds to reality).
+	  
+</p>
+<p>
+	    Note also, that the information containted in the two-hop identifier table,
+	    should be also used for processing Hello messages (converting interface 
+	    addresses to main addresses) so that the two-hop
+	    neighbor main address in the two-hop tuple is the actual main address.
+	  
+</p>
+<a name="anchor16"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5"></a><h3>5.&nbsp;Address assignment</h3>
+
+<p>
+      
+      We have two main ways to allocate an address to a newly arriving
+      node.  The first way is to assign this node a random address in the
+      pool of addresses that can be allocated and then to rely on the DAD
+      algorithm to discover potential conflicts.  The second way is to ask
+      for the help of a neighbor node.  This neighbor will be able to propose 
+	to the newly arriving node a configuration address.  Since a
+      neighbor node must in principle receive the MAD messages of all nodes
+      in the network, it can maintain a pool of non-affected addresses.  A
+      newly arriving node can choose between these two approaches.
+      
+</p>
+<a name="anchor17"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.6"></a><h3>6.&nbsp;Pool of addresses</h3>
+
+<p>
+	The pool of addresses could be for local use only.  For example, it
+	could be reserved by the IANA authority for local MANET forwarding (
+	i.e, those addresses must not be forwarded outside the MANET network,
+	nor reached from outside).  A second possibility consists in relying
+	on some machines which will announce the prefix to use for address
+	autoconfiguration for this MANET network.  These machines could be
+	connected to the internet, and act as gateways.  In this case, the
+	addresses may be global addresses, and could be seen from outside.
+      
+</p>
+<a name="anchor18"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7"></a><h3>7.&nbsp; Resolution of a conflict</h3>
+
+<p>
+	When two nodes A1 and A2 are configured with the same IP address and
+	assuming that there is no packet loss, each of these two nodes will
+	receive the MAD message of the other node.  Thus the nodes where the
+	conflict lies are bound to discover the conflict.  A simple rule to
+	solve this conflict will be: the node in conflict with the smallest
+	identifier changes its address.  Since this node knows via the 
+	reception of the MAD control messages the already assigned addresses,
+	the new address must be selected at random among the addresses that are
+	believed to be free.
+      
+</p>
+<a name="anchor19"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.8"></a><h3>8.&nbsp;Security Considerations</h3>
+
+<p>
+	This memo does not specify any security considerations.
+      
+</p>
+<a name="rfc.references1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>9.&nbsp;References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="ref1">[1]</a></td>
+<td class="author-text">&ldquo;R.  Droms, Ed.,J.  Bound, B.  Volz, T.  Lemon, C.  Perkins, M.  
+	    Carney, 'Dynamic Host Configuration Protocol for IPv6 (DHCPv6)',
+	    IETF RFC 3315, July 2003.&rdquo;</td></tr>
+<tr><td class="author-text" valign="top"><a name="ref2">[2]</a></td>
+<td class="author-text">&ldquo;S.  Thomson, T.  Narten, 'IPv6 Stateless Address 
+	    Autoconfiguration', IETF RFC 2462, December 1998.&rdquo;</td></tr>
+<tr><td class="author-text" valign="top"><a name="ref3">[3]</a></td>
+<td class="author-text">&ldquo;T.  Clausen, Ed., P.  Jacquet, Ed., 'Optimized Link State Routing
+	    Protocol',  Request for Comments (Experimental) 3626, Internet 
+	    Engineering Task Force, October 2003.&rdquo;</td></tr>
+<tr><td class="author-text" valign="top"><a name="ref4">[4]</a></td>
+<td class="author-text">&ldquo;S.Boudjit, A.  Laouiti, P.  Muhlethaler, C.  Adjih, 'Duplicate
+	    address detection and autoconfiguration in OLSR', INRIA Research
+	    Report-5475, Jan 2005.&rdquo;</td></tr>
+<tr><td class="author-text" valign="top"><a name="ref5">[5]</a></td>
+<td class="author-text">&ldquo;A.  Laouiti, S.  Boudjit, P.  Minet and C.  Adjih, 'OLSR for IPv6
+	    networks', Proceedings of Med-Hoc-Net, June 2004,Bodrum, Turkey.&rdquo;</td></tr>
+<tr><td class="author-text" valign="top"><a name="ref6">[6]</a></td>
+<td class="author-text">&ldquo;C. Adjih, S.Boudjit, P. Jacquet, A.  Laouiti, P.  Muhlethaler, 'An Advanced
+	    Configuration and Duplicate Address Detection mechanism for a multi-interface
+	    OLSR Network', INRIA Research Report, Jul 2005.&rdquo;</td></tr>
+<tr><td class="author-text" valign="top"><a name="ref7">[7]</a></td>
+<td class="author-text">&ldquo;S. Boudjit, C. Adjih, A. Laouiti, P. Muhlethaler,'Duplicate address detection 
+	    and autoconfiguration in OLSR', Proceedings of IEEE SAWN 2005, May 2005, Maryland, 
+	    USA.&rdquo;</td></tr>
+</table>
+
+<a name="rfc.authors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Authors' Addresses</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Cedric Adjih</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">INRIA Rocquencourt, France</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Project HIPERCOM</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Domaine de Voluceau -Rocquencourt</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">BP 105</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Le Chesnay  78153 cedex</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">France</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+33 1 3963 5215</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:cedric.adjih@inria.fr">cedric.adjih@inria.fr</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Saadi Boudjit</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">INRIA Rocquencourt, France</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Project HIPERCOM</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Domaine de Voluceau -Rocquencourt</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">BP 105</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Le Chesnay  78153 cedex</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">France</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+33 1 3963 5039</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:saadi.boudjit@inria.fr">saadi.boudjit@inria.fr</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Philippe Jacquet</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">INRIA Rocquencourt, France</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Project HIPERCOM</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Domaine de Voluceau -Rocquencourt</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">BP 105</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Le Chesnay  78153 cedex</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">France</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+33 1 3963 5263</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:philippe.jacquet@inria.fr">philippe.jacquet@inria.fr</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Anis Laouiti</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">INRIA Rocquencourt, France</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Project HIPERCOM</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Domaine de Voluceau -Rocquencourt</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">BP 105</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Le Chesnay  78153 cedex</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">France</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+33 1 3963 5088</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:anis.laouiti@inria.fr">anis.laouiti@inria.fr</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Paul Muhlethaler</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">INRIA Rocquencourt, France</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Project HIPERCOM</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Domaine de Voluceau -Rocquencourt</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">BP 105</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Le Chesnay  78153 cedex</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">France</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+33 1 3963 5278</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:paul.muhlethaler@inria.fr">paul.muhlethaler@inria.fr</a></td></tr>
+</table>
+<a name="rfc.copyright"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Intellectual Property Statement</h3>
+<p class='copyright'>
+The IETF takes no position regarding the validity or scope of any
+Intellectual Property Rights or other rights that might be claimed
+to pertain to the implementation or use of the technology
+described in this document or the extent to which any license
+under such rights might or might not be available; nor does it
+represent that it has made any independent effort to identify any
+such rights.
+Information on the procedures with respect to
+rights in RFC documents can be found in BCP&nbsp;78 and BCP&nbsp;79.</p>
+<p class='copyright'>
+Copies of IPR disclosures made to the IETF Secretariat and any
+assurances of licenses to be made available,
+or the result of an attempt made to obtain a general license or
+permission for the use of such proprietary rights by implementers or
+users of this specification can be obtained from the IETF on-line IPR
+repository at <a href='http://www.ietf.org/ipr'>http://www.ietf.org/ipr</a>.</p>
+<p class='copyright'>
+The IETF invites any interested party to bring to its attention
+any copyrights,
+patents or patent applications,
+or other
+proprietary rights that may cover technology that may be required
+to implement this standard.
+Please address the information to the IETF at <a href='mailto:ietf-ipr@ietf.org'>ietf-ipr@ietf.org</a>.</p>
+<h3>Disclaimer of Validity</h3>
+<p class='copyright'>
+This document and the information contained herein are provided
+on an &ldquo;AS IS&rdquo; basis and THE CONTRIBUTOR,
+THE ORGANIZATION HE/SHE REPRESENTS OR IS SPONSORED BY (IF ANY),
+THE INTERNET SOCIETY AND THE INTERNET ENGINEERING TASK FORCE DISCLAIM
+ALL WARRANTIES,
+EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE
+INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED
+WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</p>
+<h3>Copyright Statement</h3>
+<p class='copyright'>
+Copyright &copy; The Internet Society (2005).
+This document is subject to the rights,
+licenses and restrictions contained in BCP&nbsp;78,
+and except as set forth therein,
+the authors retain all their rights.</p>
+<h3>Acknowledgment</h3>
+<p class='copyright'>
+Funding for the RFC Editor function is currently provided by the
+Internet Society.</p>
+</body></html>
